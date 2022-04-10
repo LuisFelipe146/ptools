@@ -1,28 +1,44 @@
 #!/usr/bin/env bash
 #Coding: UTF-8
-#\e[m\n\n Version: \e[34;1m1.0\e[m"
+#\e[m Version:\e[m"
 
-case "$*" in
-  -h)
-  echo -e "\e[36;1m
-  ██╗███╗   ██╗███████╗ ██████╗    ███████╗██╗  ██╗
-  ██║████╗  ██║██╔════╝██╔═══██╗   ██╔════╝██║  ██║
-  ██║██╔██╗ ██║█████╗  ██║   ██║   ███████╗███████║
-  ██║██║╚██╗██║██╔══╝  ██║   ██║   ╚════██║██╔══██║
-  ██║██║ ╚████║██║     ╚██████╔╝██╗███████║██║  ██║
-  ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚═╝╚══════╝╚═╝  ╚═╝
-                                                   \e[m\n Version: \e[34;1m1.0\e[m"
-  echo -e ""
-  exit;;
-  --help)
-  $0 -h
+date=$(date '+%D %T')
+
+echo -e "\e[36;1m
+ ██╗███╗   ██╗███████╗ ██████╗    ███████╗██╗  ██╗
+ ██║████╗  ██║██╔════╝██╔═══██╗   ██╔════╝██║  ██║
+ ██║██╔██╗ ██║█████╗  ██║   ██║   ███████╗███████║
+ ██║██║╚██╗██║██╔══╝  ██║   ██║   ╚════██║██╔══██║
+ ██║██║ ╚████║██║     ╚██████╔╝██╗███████║██║  ██║
+ ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚═╝╚══════╝╚═╝  ╚═╝
+                                                 \e[m\n \e[37;1mVersion: \e[m\e[34;1m1.0\e[m\n"
+echo -e "\e[37;1m\t Select your option\e[m"
+echo -e "\e[36;1m [1]\e[m Brute force in subdomains"
+echo -e "\e[36;1m [1]\e[m Brute force in subdomains"
+echo -e "\e[36;1m [1]\e[m Brute force in subdomains"
+echo -e "\e[36;1m [1]\e[m Brute force in subdomains"
+
+read -p "[Option]:" -n1 resp
+
+case "$resp" in
+  1)
+  echo -e "\e[37;1m\n\n What address? Use:domain.com\e[m\n"
+  read -p " Target:" addr
+  echo -e "\n\e[31;1mStarting...\e[m\n"
+  for i in $(cat ../wordlists/subdomains-10000.txt); do
+    req=$(curl -s $addr -o /dev/null -w "%{http_code}")
+    if [ "$req" == 200 ]; then
+      echo -e "\e[32;1m [*] \e[m$i.$addr"
+    fi
+  done
   exit;;
   *)
-  date '+%D %T'
-  echo -e "\t[!] Error [!]"
-  echo -e "\t"
+  echo -e "\n\e[31;1m [!]\e[m Error \e[31;1m[!]\e[m $date"
+  echo -e "\tInvalid option"
+  echo -e "\tExiting...\n"
   exit;;
 esac
+
 
 #[ "$1" == "-h" -o "$1" == "--help" ] &&
 #echo -e
