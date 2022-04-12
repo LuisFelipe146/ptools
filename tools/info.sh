@@ -16,21 +16,25 @@ echo -e "\e[37;1m\t Select your option\e[m"
 echo -e "\e[36;1m [1]\e[m Brute force in subdomains"
 echo -e "\e[36;1m [1]\e[m Brute force in subdomains"
 echo -e "\e[36;1m [1]\e[m Brute force in subdomains"
-echo -e "\e[36;1m [1]\e[m Brute force in subdomains"
+echo -e "\e[36;1m [1]\e[m Brute force in subdomains\n"
 
 read -p "[Option]:" -n1 resp
 
 case "$resp" in
   1)
   echo -e "\e[37;1m\n\n What address? Use:domain.com\e[m\n"
-  read -p " Target:" addr
-  echo -e "\n\e[31;1mStarting...\e[m\n"
+  read -p "[Target]:" addr
+  echo -e "\n\e[31;1m [-] Starting...\e[m"
+  sleep 1
+  echo -e "\n\e[32;1m [*] Started:\e[m \t$date"
   for i in $(cat ../wordlists/subdomains-10000.txt); do
-    req=$(curl -s $addr -o /dev/null -w "%{http_code}")
-    if [ "$req" == 200 ]; then
-      echo -e "\e[32;1m [*] \e[m$i.$addr"
+    #req_ip=$(host $i.$addr | sed 's/has address/ - /')
+    req=$(host -T $i.$addr)
+    if [ "$?" -eq "0" ]; then
+      echo -e "\e[32;1m [*] \e[m\e[37;1mhttp://$i.$addr \t\t\e[m"
     fi
   done
+  echo -e "\e[32;1m [*] Done:\e[m \t$date\n"
   exit;;
   *)
   echo -e "\n\e[31;1m [!]\e[m Error \e[31;1m[!]\e[m $date"
@@ -38,7 +42,6 @@ case "$resp" in
   echo -e "\tExiting...\n"
   exit;;
 esac
-
 
 #[ "$1" == "-h" -o "$1" == "--help" ] &&
 #echo -e
